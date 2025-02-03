@@ -5,8 +5,8 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUser: any;
   private users: any[] = JSON.parse(localStorage.getItem('users') || '[]');
+  private connectedUser: any;
 
   constructor() {}
 
@@ -38,19 +38,19 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     const user = this.users.find((u) => u.email === email && u.password === password);
     if (user) {
-      this.currentUser = user;
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.connectedUser = user;
+      localStorage.setItem('connectedUser', JSON.stringify(user));
       return of(true);
     }
     return of(false);
   }
 
   logout(): void {
-    this.currentUser = null;
-    localStorage.removeItem('currentUser');
+    this.connectedUser = null;
+    localStorage.removeItem('connectedUser');
   }
 
-  getCurrentUser(): any {
-    return JSON.parse(localStorage.getItem('currentUser') || 'null');
+  getConnectedUser(): any {
+    return JSON.parse(localStorage.getItem('connectedUser') || 'null');
   }
 }

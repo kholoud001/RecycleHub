@@ -50,7 +50,7 @@ export class RegisterComponent {
     formData.append('telephone', this.registerForm.value.telephone);
     formData.append('dateNaissance', this.registerForm.value.dateNaissance);
     formData.append('role', this.registerForm.value.role);
-    
+
 
     if (this.selectedFile) {
       formData.append('photo', this.selectedFile);
