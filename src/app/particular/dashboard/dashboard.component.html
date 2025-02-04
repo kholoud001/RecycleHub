@@ -5,8 +5,9 @@
     <div class="container mx-auto flex justify-between items-center">
       <a href="#" class="text-white font-bold text-xl">Dashboard</a>
       <ul class="flex space-x-6">
-        <li><a href="/my-requests" class="text-white hover:text-gray-300">Mes demandes</a></li>
-        <li><a href="/profile" class="text-white hover:text-gray-300">Profile</a></li>
+        <li><button (click)="setPage('myRequests')" class="text-white hover:text-gray-300">Mes demandes</button></li>
+        <li><button (click)="setPage('profile')" class="text-white hover:text-gray-300">Profil</button></li>
+        <li><button (click)="setPage('points')" class="text-white hover:text-gray-300">Mes points</button></li>
         <li><button (click)="logout()" class="text-white hover:text-gray-300">Se déconnecter</button></li>
       </ul>
     </div>
@@ -26,19 +27,21 @@
 
       <!-- Profile Section -->
       <div *ngIf="currentPage === 'profile'">
-        <h3 class="text-xl font-semibold mb-4">Profile</h3>
-        <p class="text-gray-700">Edit your profile information here.</p>
-        <div class="grid grid-cols-2 gap-6">
-          <div>
-            <strong>Name:</strong> {{ connectedUser?.nom }} {{ connectedUser?.prenom }}
-          </div>
-          <div>
-            <strong>Email:</strong> {{ connectedUser?.email }}
-          </div>
-          <div>
-            <strong>Role:</strong> {{ connectedUser?.role }}
-          </div>
-          <!-- Add more profile details if necessary -->
+        <h3 class="text-xl font-semibold mb-4">👤 Profil</h3>
+        <p class="text-gray-700">Informations sur votre profil.</p>
+        <div class="grid grid-cols-2 gap-6 mt-4">
+          <div><strong>Nom :</strong> {{ connectedUser?.nom }} {{ connectedUser?.prenom }}</div>
+          <div><strong>Email :</strong> {{ connectedUser?.email }}</div>
+          <div><strong>Rôle :</strong> {{ connectedUser?.role }}</div>
+        </div>
+      </div>
+
+      <!-- Points System Section -->
+      <div *ngIf="currentPage === 'points'">
+        <h3 class="text-xl font-semibold mb-4">🏆 Système de points</h3>
+        <p class="text-gray-700">Vos points accumulés en tant que collecteur.</p>
+        <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500">
+          <h4 class="text-lg font-semibold">Points actuels : <span class="text-blue-600">{{ connectedUser?.points || 0 }}</span></h4>
         </div>
       </div>
     </div>

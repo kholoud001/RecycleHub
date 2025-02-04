@@ -35,4 +35,8 @@ export class DashboardComponent implements OnInit {
     this.currentPage = 'profile';
   }
 
+  setPage(page: string) {
+    this.currentPage = page;
+  }
+
 }
