@@ -67,24 +67,35 @@ export class AuthService {
     });
   }
 
-  async register(formData: FormData): Promise<Observable<boolean>> {
-    const email = formData.get('email') as string;
+  register(formData: FormData): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      const email = formData.get('email') as string;
 
-    if (this.users.find(user => user.email === email)) {
-      return of(false);
-    }
+      if (this.users.find(user => user.email === email)) {
+        observer.next(false);
+        observer.complete();
+        return;
+      }
 
-    const file = formData.get('photo') as File;
+      const file = formData.get('photo') as File;
 
-    let base64Image = null;
-    if (file) {
-      base64Image = await this.convertToBase64(file);
-    }
+      if (file) {
+        this.convertToBase64(file).then(base64Image => {
+          this.saveUser(formData, base64Image, observer);
+        }).catch(error => {
+          observer.error(error);
+        });
+      } else {
+        this.saveUser(formData, null, observer);
+      }
+    });
+  }
 
+  private saveUser(formData: FormData, base64Image: string | null, observer: any) {
     const newUser = {
       nom: formData.get('nom'),
       prenom: formData.get('prenom'),
-      email: email,
+      email: formData.get('email'),
       password: formData.get('password'),
       adresse: formData.get('adresse'),
       telephone: formData.get('telephone'),
@@ -95,7 +106,9 @@ export class AuthService {
 
     this.users.push(newUser);
     localStorage.setItem('users', JSON.stringify(this.users));
-    return of(true);
+
+    observer.next(true);
+    observer.complete();
   }
 
 

@@ -49,17 +49,27 @@ export class DashboardComponent implements OnInit {
   saveProfile() {
     let users = JSON.parse(localStorage.getItem('users') || '[]');
     const index = users.findIndex((u: any) => u.email === this.connectedUser.email);
-    console.log("index ",index);
+
+    console.log("🔍 Index trouvé:", index);
+    console.log("📋 Avant mise à jour:", JSON.stringify(users[index]));
 
     if (index !== -1) {
       users[index] = { ...this.updatedUser };
       localStorage.setItem('users', JSON.stringify(users));
+
       this.connectedUser = { ...this.updatedUser };
+      localStorage.setItem('user', JSON.stringify(this.connectedUser));
+
+      console.log("✅ Après mise à jour:", JSON.stringify(users[index]));
       alert('✅ Informations mises à jour avec succès !');
+    } else {
+      console.error("❌ Utilisateur introuvable !");
     }
 
     this.isEditing = false;
   }
+
+
 
   cancelEdit() {
     this.isEditing = false;
