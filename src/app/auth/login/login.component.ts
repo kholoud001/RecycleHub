@@ -38,12 +38,11 @@ export class LoginComponent {
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
-            // Redirection selon le rôle de l'utilisateur
-            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-            if (currentUser.role === 'collector') {
-              this.router.navigate(['/collector-dashboard']); // Rediriger vers le tableau de bord des collecteurs
+            const connectedUser = JSON.parse(localStorage.getItem('connectedUser') || 'null');
+            if (connectedUser.role === 'collector') {
+              this.router.navigate(['/collector-dashboard']);
             } else {
-              this.router.navigate(['/dashboard']); // Rediriger vers le tableau de bord des particuliers
+              this.router.navigate(['/dashboard']);
             }
           });
         } else {
