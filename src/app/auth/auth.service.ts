@@ -6,9 +6,45 @@ import {Observable, of} from 'rxjs';
 })
 export class AuthService {
   private users: any[] = JSON.parse(localStorage.getItem('users') || '[]');
+  private collectors: any[] = JSON.parse(localStorage.getItem('collectors') || '[]');
+
   private connectedUser: any;
 
-  constructor() {}
+  constructor() {
+    if (this.collectors.length === 0) {
+      this.preRegisterCollectors();
+    }
+  }
+
+  private preRegisterCollectors(): void {
+    const collector1 = {
+      nom: 'Collecteur 1',
+      prenom: 'Test',
+      email: 'collector1@example.com',
+      password: '123456',
+      adresse: 'Casa',
+      telephone: '1234567890',
+      dateNaissance: '1990-01-01',
+      role: 'collector',
+      photo: null,
+    };
+
+    const collector2 = {
+      nom: 'Collecteur 2',
+      prenom: 'Test',
+      email: 'collector2@example.com',
+      password: '123456',
+      adresse: 'Safi',
+      telephone: '0987654321',
+      dateNaissance: '1992-02-02',
+      role: 'collector',
+      photo: null,
+    };
+
+    this.collectors.push(collector1, collector2);
+
+    localStorage.setItem('collectors', JSON.stringify(this.collectors));
+  }
 
   register(formData: FormData): Observable<boolean> {
     const email = formData.get('email') as string;
@@ -36,14 +72,23 @@ export class AuthService {
 
 
   login(email: string, password: string): Observable<boolean> {
-    const user = this.users.find((u) => u.email === email && u.password === password);
+    const users = [...this.users, ...JSON.parse(localStorage.getItem('collectors') || '[]')];
+
+    const user = users.find((u) => u.email === email && u.password === password);
+
     if (user) {
       this.connectedUser = user;
       localStorage.setItem('connectedUser', JSON.stringify(user));
-      return of(true);
+
+      if (user.role === 'collector') {
+        return of(true);
+      } else if(user.role === 'particular'){
+        return of(true);
+      }
     }
     return of(false);
   }
+
 
   logout(): void {
     this.connectedUser = null;

@@ -22,7 +22,6 @@ export class LoginComponent {
     });
   }
 
-
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -39,7 +38,13 @@ export class LoginComponent {
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
-            this.router.navigate(['/dashboard']);
+            // Redirection selon le rôle de l'utilisateur
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (currentUser.role === 'collector') {
+              this.router.navigate(['/collector-dashboard']); // Rediriger vers le tableau de bord des collecteurs
+            } else {
+              this.router.navigate(['/dashboard']); // Rediriger vers le tableau de bord des particuliers
+            }
           });
         } else {
           Swal.fire({
