@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-white font-bold text-xl">Dashboard</a>
+      <ul class="flex space-x-6">
+        <li><button (click)="setPage('myRequests')" class="text-white hover:text-gray-300">Mes demandes</button></li>
+        <li><button (click)="setPage('profile')" class="text-white hover:text-gray-300">Profil</button></li>
+        <li><button (click)="setPage('points')" class="text-white hover:text-gray-300">Système de points</button></li>
+        <li><button (click)="logout()" class="text-white hover:text-gray-300">Se déconnecter</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container mx-auto mt-6">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-4">Bienvenue, {{ connectedUser?.nom }}!</h2>
+
+      <!-- My Requests Section -->
+      <div *ngIf="currentPage === 'myRequests'">
+        <h3 class="text-xl font-semibold mb-4">📋 Mes demandes</h3>
+        <p class="text-gray-700">Consultez et gérez vos demandes ici.</p>
+        <!-- Liste des demandes (exemple statique) -->
+        <ul class="mt-4">
+          <li class="p-2 bg-gray-200 mb-2 rounded-md">Demande #1 - En cours</li>
+          <li class="p-2 bg-gray-200 mb-2 rounded-md">Demande #2 - Terminée</li>
+        </ul>
+      </div>
+
+      <!-- Profile Section -->
+      <div *ngIf="currentPage === 'profile'">
+        <h3 class="text-xl font-semibold mb-4">👤 Profil</h3>
+        <p class="text-gray-700">Informations sur votre profil.</p>
+        <div class="grid grid-cols-2 gap-6 mt-4">
+          <div><strong>Nom :</strong> {{ connectedUser?.nom }} {{ connectedUser?.prenom }}</div>
+          <div><strong>Email :</strong> {{ connectedUser?.email }}</div>
+          <div><strong>Rôle :</strong> {{ connectedUser?.role }}</div>
+        </div>
+      </div>
+
+      <!-- Points System Section -->
+      <div *ngIf="currentPage === 'points'">
+        <h3 class="text-xl font-semibold mb-4">🏆 Système de points</h3>
+        <p class="text-gray-700">Vos points accumulés en tant que collecteur.</p>
+        <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500">
+          <h4 class="text-lg font-semibold">Points actuels : <span class="text-blue-600">{{ connectedUser?.points || 0 }}</span></h4>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

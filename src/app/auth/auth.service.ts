@@ -41,7 +41,19 @@ export class AuthService {
       photo: null,
     };
 
-    this.collectors.push(collector1, collector2);
+    const collector3 = {
+      nom: 'Collecteur 3',
+      prenom: 'Test',
+      email: 'collector3@example.com',
+      password: '123456',
+      adresse: 'Rabat',
+      telephone: '0987654321',
+      dateNaissance: '1996-02-02',
+      role: 'collector',
+      photo: null,
+    };
+
+    this.collectors.push(collector1, collector2,collector3);
 
     localStorage.setItem('collectors', JSON.stringify(this.collectors));
   }
