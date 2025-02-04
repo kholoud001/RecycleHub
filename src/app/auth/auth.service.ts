@@ -58,11 +58,27 @@ export class AuthService {
     localStorage.setItem('collectors', JSON.stringify(this.collectors));
   }
 
-  register(formData: FormData): Observable<boolean> {
+  convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  async register(formData: FormData): Promise<Observable<boolean>> {
     const email = formData.get('email') as string;
 
     if (this.users.find(user => user.email === email)) {
       return of(false);
+    }
+
+    const file = formData.get('photo') as File;
+
+    let base64Image = null;
+    if (file) {
+      base64Image = await this.convertToBase64(file);
     }
 
     const newUser = {
@@ -73,8 +89,8 @@ export class AuthService {
       adresse: formData.get('adresse'),
       telephone: formData.get('telephone'),
       dateNaissance: formData.get('dateNaissance'),
-      role:formData.get('role'),
-      photo: formData.get('photo') ? URL.createObjectURL(formData.get('photo') as Blob) : null,
+      role: formData.get('role'),
+      photo: base64Image,
     };
 
     this.users.push(newUser);

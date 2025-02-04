@@ -32,6 +32,15 @@
           <div *ngIf="currentPage === 'profile'">
             <h3 class="text-xl font-semibold mb-4">👤 Profil</h3>
 
+            <!-- Profile Image -->
+            <div class="flex items-center space-x-4">
+              <img *ngIf="connectedUser.photo"
+                   [src]="connectedUser.photo"
+                   alt="Photo de profil"
+                   class="w-24 h-24 rounded-full border border-gray-300 shadow-md object-cover">
+
+            </div>
+
             <!-- Mode édition -->
             <div *ngIf="isEditing; else profileView">
               <label class="block">Nom :</label>
