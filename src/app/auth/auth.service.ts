@@ -58,28 +58,57 @@ export class AuthService {
     localStorage.setItem('collectors', JSON.stringify(this.collectors));
   }
 
+  convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  }
+
   register(formData: FormData): Observable<boolean> {
-    const email = formData.get('email') as string;
+    return new Observable<boolean>(observer => {
+      const email = formData.get('email') as string;
 
-    if (this.users.find(user => user.email === email)) {
-      return of(false);
-    }
+      if (this.users.find(user => user.email === email)) {
+        observer.next(false);
+        observer.complete();
+        return;
+      }
 
+      const file = formData.get('photo') as File;
+
+      if (file) {
+        this.convertToBase64(file).then(base64Image => {
+          this.saveUser(formData, base64Image, observer);
+        }).catch(error => {
+          observer.error(error);
+        });
+      } else {
+        this.saveUser(formData, null, observer);
+      }
+    });
+  }
+
+  private saveUser(formData: FormData, base64Image: string | null, observer: any) {
     const newUser = {
       nom: formData.get('nom'),
       prenom: formData.get('prenom'),
-      email: email,
+      email: formData.get('email'),
       password: formData.get('password'),
       adresse: formData.get('adresse'),
       telephone: formData.get('telephone'),
       dateNaissance: formData.get('dateNaissance'),
-      role:formData.get('role'),
-      photo: formData.get('photo') ? URL.createObjectURL(formData.get('photo') as Blob) : null,
+      role: formData.get('role'),
+      photo: base64Image,
     };
 
     this.users.push(newUser);
     localStorage.setItem('users', JSON.stringify(this.users));
-    return of(true);
+
+    observer.next(true);
+    observer.complete();
   }
 
 

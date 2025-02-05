@@ -35,6 +35,7 @@ export class RegisterComponent {
     }
   }
 
+
   onSubmit() {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
@@ -54,7 +55,10 @@ export class RegisterComponent {
 
     if (this.selectedFile) {
       formData.append('photo', this.selectedFile);
+
     }
+
+
 
     this.authService.register(formData).subscribe({
       next: () => {
