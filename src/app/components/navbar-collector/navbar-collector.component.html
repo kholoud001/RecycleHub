@@ -1,11 +1,14 @@
 <nav class="bg-green-600 p-4 shadow-md">
   <div class="container mx-auto flex justify-between items-center">
-    <a routerLink="/" class="text-white font-bold text-xl">Dashboard Collecteur</a>
-    <ul class="flex space-x-6">
-      <li><a routerLink="/requests" class="text-white hover:text-gray-300">Toutes les demandes</a></li>
+    <a routerLink="/collector-dashboard" class="text-white font-bold text-xl">Dashboard Collecteur</a>
+    <ul class="flex space-x-5">
+      <li><a routerLink="/requests" class="text-white hover:text-gray-300">Mes demandes</a></li>
       <li><a routerLink="/profile" class="text-white hover:text-gray-300">Profil</a></li>
-      <li><a routerLink="/statistics" class="text-white hover:text-gray-300">Statistiques</a></li>
+      <li><a routerLink="/points-system" class="text-white hover:text-gray-300">Système de points</a></li>
+      <li><a routerLink="/convert" class="text-white hover:text-gray-300">Conversion</a></li>
       <li><button (click)="logout()" class="text-white hover:text-gray-300">Se déconnecter</button></li>
     </ul>
   </div>
 </nav>
+
+

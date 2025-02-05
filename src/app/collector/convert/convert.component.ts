@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-collector-dashboard',
+  selector: 'app-convert',
   standalone: false,
 
-  templateUrl: './collector-dashboard.component.html',
-  styleUrl: './collector-dashboard.component.css'
+  templateUrl: './convert.component.html',
+  styleUrl: './convert.component.css'
 })
-export class CollectorDashboardComponent {
+export class ConvertComponent {
 
   connectedUser: any = null;
-  currentPage: string = 'myRequests';
   vouchers = [
     { points: 100, value: 50 },
     { points: 200, value: 120 },
     { points: 500, value: 350 }
   ];
   points: number = 0;
+  collectedMaterials: any;
 
 
   constructor(private authService: AuthService, private router: Router) {
@@ -26,13 +26,7 @@ export class CollectorDashboardComponent {
   }
 
 
-
   convertPoints(points: number) {
 
   }
-
-
-
-
-
 }

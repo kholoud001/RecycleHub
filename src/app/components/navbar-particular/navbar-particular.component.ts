@@ -11,7 +11,6 @@ import {Router} from '@angular/router';
 })
 export class NavbarParticularComponent {
 
-  currentPage: string = 'myRequests';
 
   constructor(private authService: AuthService, private router: Router) {}
 
