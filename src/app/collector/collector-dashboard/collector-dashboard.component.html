@@ -9,7 +9,7 @@
         <li><button (click)="setPage('profile')" class="text-white hover:text-gray-300">Profil</button></li>
         <li><button (click)="setPage('points')" class="text-white hover:text-gray-300">Système de points</button></li>
         <li><button (click)="setPage('convert')" class="text-white hover:text-gray-300">Conversion</button></li>
-        <li><button class="text-white hover:text-gray-300">Se déconnecter</button></li>
+        <li><button (click)="logout()" class="text-white hover:text-gray-300">Se déconnecter</button></li>
       </ul>
     </div>
   </nav>
@@ -54,6 +54,9 @@
 
               <label class="block">Téléphone :</label>
               <input type="text" [(ngModel)]="updatedUser.telephone" class="border p-2 w-full rounded-md mb-2">
+
+              <label class="block">Adresse :</label>
+              <input type="text" [(ngModel)]="updatedUser.adresse" class="border p-2 w-full rounded-md mb-2">
 
               <button (click)="saveProfile()" class="bg-green-500 text-white px-4 py-2 rounded-md mr-2">✅ Sauvegarder</button>
               <button (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded-md">❌ Annuler</button>

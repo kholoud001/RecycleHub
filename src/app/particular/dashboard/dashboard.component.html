@@ -51,6 +51,10 @@
           <label class="block">Téléphone :</label>
           <input type="text" [(ngModel)]="updatedUser.telephone" class="border p-2 w-full rounded-md mb-2">
 
+          <label class="block">Adresse :</label>
+          <input type="text" [(ngModel)]="updatedUser.adresse" class="border p-2 w-full rounded-md mb-2">
+
+
           <button (click)="saveProfile()" class="bg-green-500 text-white px-4 py-2 rounded-md mr-2">✅ Sauvegarder</button>
           <button (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded-md">❌ Annuler</button>
         </div>

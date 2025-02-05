@@ -27,7 +27,7 @@ export class CollectorDashboardComponent {
     this.connectedUser = JSON.parse(localStorage.getItem('connectedUser') || 'null');
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
@@ -53,20 +53,48 @@ export class CollectorDashboardComponent {
   }
 
   saveProfile() {
-    this.connectedUser = { ...this.updatedUser };
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    const index = users.findIndex((u: any) => u.email === this.connectedUser.email);
+
+    console.log("🔍 Index trouvé:", index);
+    console.log("📋 Avant mise à jour:", JSON.stringify(users[index]));
+
+    if (index !== -1) {
+      users[index] = { ...this.updatedUser };
+      localStorage.setItem('users', JSON.stringify(users));
+
+      this.connectedUser = { ...this.updatedUser };
+      localStorage.setItem('user', JSON.stringify(this.connectedUser));
+      localStorage.setItem('connectedUser', JSON.stringify(this.connectedUser));
+
+
+      console.log("✅ Après mise à jour:", JSON.stringify(users[index]));
+      alert('✅ Informations mises à jour avec succès !');
+    } else {
+      console.error("❌ Utilisateur introuvable !");
+    }
+
     this.isEditing = false;
-    alert('✅ Informations mises à jour avec succès !');
   }
+
 
   cancelEdit() {
     this.isEditing = false;
   }
 
   deleteAccount() {
-    const confirmation = confirm("❗ Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.");
+    const confirmation = confirm("❗ Êtes-vous sûr de vouloir supprimer votre compte ?");
+
     if (confirmation) {
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      users = users.filter((u: any) => u.email !== this.connectedUser.email); // 🚮 Filtrer l'utilisateur
+
+      localStorage.setItem('users', JSON.stringify(users)); // 💾 Sauvegarder la nouvelle liste
+      localStorage.removeItem('user'); // ❌ Supprimer `connectedUser`
+
       alert('🗑️ Compte supprimé avec succès.');
-      window.location.href = '/login';
+      this.router.navigate(['/login']); // 🔄 Rediriger vers la page de connexion
     }
   }
+
 }
