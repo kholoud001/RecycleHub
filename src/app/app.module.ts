@@ -6,10 +6,16 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { ParticularModule } from './particular/particular.module';
 import { CollectorModule } from './collector/collector.module';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarParticularComponent } from './components/navbar-particular/navbar-particular.component';
+import { NavbarCollectorComponent } from './components/navbar-collector/navbar-collector.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    NavbarParticularComponent,
+    NavbarCollectorComponent
   ],
   imports: [
     BrowserModule,
