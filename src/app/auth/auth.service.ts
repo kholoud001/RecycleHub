@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,6 @@ import {Observable, of} from 'rxjs';
 export class AuthService {
   private users: any[] = JSON.parse(localStorage.getItem('users') || '[]');
   private collectors: any[] = JSON.parse(localStorage.getItem('collectors') || '[]');
-
   private connectedUser: any;
 
   constructor() {
@@ -18,6 +17,7 @@ export class AuthService {
 
   private preRegisterCollectors(): void {
     const collector1 = {
+      id: this.generateId(), // Génération d'un ID unique
       nom: 'Collecteur 1',
       prenom: 'Test',
       email: 'collector1@example.com',
@@ -30,6 +30,7 @@ export class AuthService {
     };
 
     const collector2 = {
+      id: this.generateId(),
       nom: 'Collecteur 2',
       prenom: 'Test',
       email: 'collector2@example.com',
@@ -42,6 +43,7 @@ export class AuthService {
     };
 
     const collector3 = {
+      id: this.generateId(), // Génération d'un ID unique
       nom: 'Collecteur 3',
       prenom: 'Test',
       email: 'collector3@example.com',
@@ -53,9 +55,12 @@ export class AuthService {
       photo: null,
     };
 
-    this.collectors.push(collector1, collector2,collector3);
-
+    this.collectors.push(collector1, collector2, collector3);
     localStorage.setItem('collectors', JSON.stringify(this.collectors));
+  }
+
+  private generateId(): number {
+    return Math.floor(Math.random() * 1000000);
   }
 
   convertToBase64(file: File): Promise<string> {
@@ -93,6 +98,7 @@ export class AuthService {
 
   private saveUser(formData: FormData, base64Image: string | null, observer: any) {
     const newUser = {
+      id: this.generateId(), 
       nom: formData.get('nom'),
       prenom: formData.get('prenom'),
       email: formData.get('email'),
@@ -111,9 +117,8 @@ export class AuthService {
     observer.complete();
   }
 
-
   login(email: string, password: string): Observable<boolean> {
-    const users = [...this.users, ...JSON.parse(localStorage.getItem('collectors') || '[]')];
+    const users = [...this.users, ...this.collectors];
 
     const user = users.find((u) => u.email === email && u.password === password);
 
@@ -123,13 +128,12 @@ export class AuthService {
 
       if (user.role === 'collector') {
         return of(true);
-      } else if(user.role === 'particular'){
+      } else if (user.role === 'particular') {
         return of(true);
       }
     }
     return of(false);
   }
-
 
   logout(): void {
     this.connectedUser = null;

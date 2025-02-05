@@ -1,0 +1,74 @@
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">📋 Mes Demandes de Collecte</h2>
+    <button (click)="toggleAddRequest()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+      Ajouter une Demande
+    </button>
+  </div>
+
+  <div *ngIf="!isAddingRequest">
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse">
+        <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-2 text-left">Demande</th>
+          <th class="px-4 py-2 text-left">Fuseau Horaire</th>
+          <th class="px-4 py-2 text-left">Statut</th>
+          <th class="px-4 py-2 text-left">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let request of requests">
+          <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
+          <td class="px-4 py-2">{{ request.creneauHoraire }}</td>
+          <td class="px-4 py-2">
+              <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full
+                {{ request.statut === 'validée' ? 'bg-green-200 text-green-800' :
+                   request.statut === 'rejetée' ? 'bg-red-200 text-red-800' : 'bg-yellow-200 text-yellow-800' }}">
+                {{ request.statut }}
+              </span>
+          </td>
+          <td>
+            <button *ngIf="request.statut === 'en attente'" (click)="updateRequest(request)" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">Modifier</button>
+            <button *ngIf="request.statut === 'en attente'" (click)="deleteRequest(request.id)" class="bg-red-500 text-white px-4 py-2 rounded-lg">Supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="isAddingRequest" class="mt-6">
+    <h2 class="text-2xl font-semibold mb-4">{{ newRequest.id ? 'Modifier' : 'Nouvelle' }} Demande de Collecte </h2>
+
+    <form (ngSubmit)="submitRequest()" class="space-y-4">
+      <label class="block text-gray-700 font-medium">Type de déchets :</label>
+      <select multiple [(ngModel)]="newRequest.typeDechets" name="typeDechets" class="w-full p-2 border rounded-lg focus:outline-none focus:ring">
+        <option value="plastique">Plastique</option>
+        <option value="verre">Verre</option>
+        <option value="papier">Papier</option>
+        <option value="métal">Métal</option>
+      </select>
+
+      <label class="block text-gray-700 font-medium">Poids estimé (min 1000g) :</label>
+      <input type="number" [(ngModel)]="newRequest.poids" name="poids" min="1000" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring">
+
+      <label class="block text-gray-700 font-medium">Adresse de collecte :</label>
+      <input type="text" [(ngModel)]="newRequest.adresse" name="adresse" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring">
+
+      <label class="block text-gray-700 font-medium">Date de collecte :</label>
+      <input type="date" [(ngModel)]="newRequest.dateCollecte" name="dateCollecte" [min]="minDate" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring">
+
+      <label class="block text-gray-700 font-medium">Créneau horaire :</label>
+      <select [(ngModel)]="newRequest.creneauHoraire" name="creneauHoraire" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring">
+        <option value="09:00-12:00">09:00 - 12:00</option>
+        <option value="12:00-15:00">12:00 - 15:00</option>
+        <option value="15:00-18:00">15:00 - 18:00</option>
+      </select>
+
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition mr-2">✅ Soumettre</button>
+      <button (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded-md">❌ Annuler</button>
+
+    </form>
+  </div>
+</div>

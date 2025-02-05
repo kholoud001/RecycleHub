@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-profile',
   standalone: false,
 
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
 })
-export class DashboardComponent implements OnInit {
+export class ProfileComponent implements OnInit {
+
   connectedUser: any = {};
-  currentPage: string = 'myRequests';
   isEditing: boolean = false;
   updatedUser: any = { ...this.connectedUser };
 
@@ -22,17 +22,6 @@ export class DashboardComponent implements OnInit {
     if (!this.connectedUser) {
       this.router.navigate(['/login']);
     }
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
-
-
-  setPage(page: string) {
-    this.currentPage = page;
   }
 
   editProfile() {
@@ -85,8 +74,5 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/login']); // 🔄 Rediriger vers la page de connexion
     }
   }
-
-
-
 
 }
