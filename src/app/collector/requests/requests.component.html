@@ -8,6 +8,7 @@
         <th class="px-4 py-2 text-left">Demande</th>
         <th class="px-4 py-2 text-left">Créneau</th>
         <th class="px-4 py-2 text-left">Poids</th>
+        <th class="px-4 py-2 text-left">Points</th>
         <th class="px-4 py-2 text-left">Statut</th>
       </tr>
       </thead>
@@ -16,9 +17,14 @@
         <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
         <td class="px-4 py-2"> {{request.creneauHoraire}}</td>
         <td class="px-4 py-2"> {{request.poids}}</td>
-
-
         <td class="px-4 py-2">
+            <span *ngIf="request.statut === 'validée'">
+              {{ (store.select(selectPointsByRequestId(request.id)) | async) }}
+            </span>
+        </td>
+
+        <td>
+
           <button (click)="toggleDropdown(request.id)"
                   class="text-white px-4 py-2 rounded-md {{
           request.statut === 'en attente' ? 'bg-yellow-300' :
@@ -28,7 +34,7 @@
           'bg-red-300' }} flex items-center">
 
             {{ request.statut }}
-              <span class="ml-2 text-sm">
+            <span class="ml-2 text-sm">
                 ▼
               </span>
           </button>
@@ -44,6 +50,8 @@
             </select>
           </div>
         </td>
+
+
       </tbody>
     </table>
   </div>
