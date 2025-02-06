@@ -12,6 +12,7 @@ import { NavbarCollectorComponent } from './components/navbar-collector/navbar-c
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {CollectorModule} from './collector/collector.module';
+import {FormsModule} from '@angular/forms';
 
 
 
@@ -28,6 +29,7 @@ import {CollectorModule} from './collector/collector.module';
     AuthModule,
     ParticularModule,
     CollectorModule,
+    FormsModule,
     // StoreModule.forRoot({ requests: requestsReducer }),
     // EffectsModule.forRoot([RequestsEffects]),
   ],

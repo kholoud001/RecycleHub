@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
-import {CommonModule} from '@angular/common';
+import {CollectorService} from '../CollectorService';
+import {CommonModule, NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-requests',
@@ -11,35 +10,54 @@ import {CommonModule} from '@angular/common';
   styleUrls: ['./requests.component.css']
 })
 export class RequestsComponent implements OnInit {
+
   connectedUser: any = null;
+  requests: any[] = JSON.parse(localStorage.getItem('collectionRequests') || '[]');
   filteredRequests: any[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {
+
+  constructor(private collectorService: CollectorService) {
     this.connectedUser = JSON.parse(localStorage.getItem('connectedUser') || 'null');
+    this.filterRequests();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.filterRequests();
+  }
+
+  filterRequests() {
     if (this.connectedUser) {
-      const collectionRequests = JSON.parse(localStorage.getItem('collectionRequests') || '[]');
-
       const userCity = this.getCityFromAddress(this.connectedUser.adresse);
-
-      this.filteredRequests = collectionRequests.filter((request: { adresse: string; }) => {
-        const requestCity = this.getCityFromAddress(request.adresse);
-        console.log(requestCity)
-        return requestCity.includes(userCity);
+      this.filteredRequests = this.requests.filter((request) => {
+        return this.getCityFromAddress(request.adresse) === userCity;
       });
     }
   }
+
 
   getCityFromAddress(address: string): string {
     const parts = address.split(',');
     return parts[parts.length - 1].trim().toLowerCase();
   }
 
-
-  updateRequest(request: any) {
-
+  toggleDropdown(requestId: number) {
+    const request = this.requests.find(r => r.id === requestId);
+    if (request) {
+      request.showDropdown = !request.showDropdown;
+    }
   }
+
+  changeStatus(request: any, event: any) {
+    const newStatus = event.target.value;
+    request.statut = newStatus;
+
+    this.collectorService.updateRequestInLocalStorage(request);
+
+    alert(`Le statut de la demande a été mis à jour en: ${newStatus}`);
+  }
+
+
+
+
 
 }
