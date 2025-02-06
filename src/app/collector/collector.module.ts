@@ -11,13 +11,13 @@ import { ConvertComponent } from './convert/convert.component';
 @NgModule({
   declarations: [
     CollectorDashboardComponent,
-    RequestsComponent,
     PointSystemComponent,
     ConvertComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    RequestsComponent
+  ]
 })
 export class CollectorModule { }
