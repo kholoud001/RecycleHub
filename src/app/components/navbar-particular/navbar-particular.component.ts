@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
   styleUrl: './navbar-particular.component.css'
 })
 export class NavbarParticularComponent {
+  isMenuOpen: boolean = false;
 
 
   constructor(private authService: AuthService, private router: Router) {}

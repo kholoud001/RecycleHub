@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../auth/auth.service';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -33,9 +34,6 @@ export class ProfileComponent implements OnInit {
     let users = JSON.parse(localStorage.getItem('users') || '[]');
     const index = users.findIndex((u: any) => u.email === this.connectedUser.email);
 
-    console.log("🔍 Index trouvé:", index);
-    console.log("📋 Avant mise à jour:", JSON.stringify(users[index]));
-
     if (index !== -1) {
       users[index] = { ...this.updatedUser };
       localStorage.setItem('users', JSON.stringify(users));
@@ -44,9 +42,12 @@ export class ProfileComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(this.connectedUser));
       localStorage.setItem('connectedUser', JSON.stringify(this.connectedUser));
 
-
-      console.log("✅ Après mise à jour:", JSON.stringify(users[index]));
-      alert('✅ Informations mises à jour avec succès !');
+      Swal.fire({
+        icon: 'success',
+        title: 'Mise à jour réussie',
+        text: '✅ Informations mises à jour avec succès !',
+        confirmButtonColor: '#3085d6'
+      });
     } else {
       console.error("❌ Utilisateur introuvable !");
     }
@@ -54,25 +55,37 @@ export class ProfileComponent implements OnInit {
     this.isEditing = false;
   }
 
-
-
   cancelEdit() {
     this.isEditing = false;
   }
 
   deleteAccount() {
-    const confirmation = confirm("❗ Êtes-vous sûr de vouloir supprimer votre compte ?");
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: "Votre compte sera définitivement supprimé.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        users = users.filter((u: any) => u.email !== this.connectedUser.email);
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.removeItem('user');
+        localStorage.removeItem('connectedUser');
 
-    if (confirmation) {
-      let users = JSON.parse(localStorage.getItem('users') || '[]');
-      users = users.filter((u: any) => u.email !== this.connectedUser.email); // 🚮 Filtrer l'utilisateur
-
-      localStorage.setItem('users', JSON.stringify(users)); // 💾 Sauvegarder la nouvelle liste
-      localStorage.removeItem('user'); // ❌ Supprimer `connectedUser`
-
-      alert('🗑️ Compte supprimé avec succès.');
-      this.router.navigate(['/login']); // 🔄 Rediriger vers la page de connexion
-    }
+        Swal.fire({
+          icon: 'success',
+          title: 'Compte supprimé',
+          text: '🗑️ Votre compte a été supprimé avec succès.',
+          confirmButtonColor: '#3085d6'
+        }).then(() => {
+          this.router.navigate(['/login']);
+        });
+      }
+    });
   }
-
 }
