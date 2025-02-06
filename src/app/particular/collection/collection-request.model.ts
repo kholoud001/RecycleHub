@@ -8,5 +8,5 @@ export interface CollectionRequest {
   dateCollecte: string;
   creneauHoraire: string;
   notes?: string;
-  statut: 'en attente' | 'validée' | 'rejetée';
+  statut: 'en attente' | 'validée' | 'rejetée' | 'occupée';
 }
