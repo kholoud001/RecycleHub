@@ -7,6 +7,7 @@
       <tr>
         <th class="px-4 py-2 text-left">Demande</th>
         <th class="px-4 py-2 text-left">Créneau</th>
+        <th class="px-4 py-2 text-left">Poids</th>
         <th class="px-4 py-2 text-left">Statut</th>
       </tr>
       </thead>
@@ -14,6 +15,8 @@
       <tr *ngFor="let request of filteredRequests">
         <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
         <td class="px-4 py-2"> {{request.creneauHoraire}}</td>
+        <td class="px-4 py-2"> {{request.poids}}</td>
+
 
         <td class="px-4 py-2">
           <button (click)="toggleDropdown(request.id)"

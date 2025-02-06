@@ -32,6 +32,8 @@ import { ErrorComponent } from './components/error/error.component';
     ParticularModule,
     CollectorModule,
     FormsModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
     // StoreModule.forRoot({ requests: requestsReducer }),
     // EffectsModule.forRoot([RequestsEffects]),
   ],
