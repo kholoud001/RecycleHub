@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CollectorService} from '../CollectorService';
 import {CommonModule, NgForOf} from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-requests',
@@ -47,13 +48,20 @@ export class RequestsComponent implements OnInit {
     }
   }
 
+
   changeStatus(request: any, event: any) {
     const newStatus = event.target.value;
     request.statut = newStatus;
 
     this.collectorService.updateRequestInLocalStorage(request);
 
-    alert(`Le statut de la demande a été mis à jour en: ${newStatus}`);
+    Swal.fire({
+      title: 'Statut mis à jour !',
+      text: `Le statut de la demande est maintenant "${newStatus}".`,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+
   }
 
 

@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {CollectorModule} from './collector/collector.module';
 import {FormsModule} from '@angular/forms';
+import { ErrorComponent } from './components/error/error.component';
 
 
 
@@ -21,7 +22,8 @@ import {FormsModule} from '@angular/forms';
     AppComponent,
     NavbarComponent,
     NavbarParticularComponent,
-    NavbarCollectorComponent
+    NavbarCollectorComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

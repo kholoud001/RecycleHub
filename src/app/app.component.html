@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-100">
-  <app-navbar></app-navbar>
+  <app-navbar *ngIf="!isErrorPage"></app-navbar>
 
   <div class="container mx-auto mt-6">
     <router-outlet></router-outlet>

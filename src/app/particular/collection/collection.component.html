@@ -22,11 +22,17 @@
           <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
           <td class="px-4 py-2">{{ request.creneauHoraire }}</td>
           <td class="px-4 py-2">
-              <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full
-                {{ request.statut === 'validée' ? 'bg-green-200 text-green-800' :
-                   request.statut === 'rejetée' ? 'bg-red-200 text-red-800' : 'bg-yellow-200 text-yellow-800' }}">
+              <span
+                class="inline-block px-2 py-1 text-sm font-semibold rounded-full"
+                [ngClass]="{
+                  'bg-green-200 text-green-800': request.statut === 'validée',
+                  'bg-red-200 text-red-800': request.statut === 'occupée' || request.statut === 'rejetée',
+                  'bg-yellow-200 text-yellow-800': request.statut !== 'validée' && request.statut !== 'occupée' && request.statut !== 'rejetée'
+                }"
+                            >
                 {{ request.statut }}
               </span>
+
           </td>
           <td>
             <button *ngIf="request.statut === 'en attente'" (click)="updateRequest(request)" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">Modifier</button>

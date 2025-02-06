@@ -9,6 +9,7 @@ export class AuthService {
   private collectors: any[] = JSON.parse(localStorage.getItem('collectors') || '[]');
   private connectedUser: any;
 
+
   constructor() {
     if (this.collectors.length === 0) {
       this.preRegisterCollectors();
@@ -17,7 +18,7 @@ export class AuthService {
 
   private preRegisterCollectors(): void {
     const collector1 = {
-      id: this.generateId(), // Génération d'un ID unique
+      id: this.generateId(),
       nom: 'Collecteur 1',
       prenom: 'Test',
       email: 'collector1@example.com',
@@ -43,7 +44,7 @@ export class AuthService {
     };
 
     const collector3 = {
-      id: this.generateId(), // Génération d'un ID unique
+      id: this.generateId(),
       nom: 'Collecteur 3',
       prenom: 'Test',
       email: 'collector3@example.com',
@@ -98,7 +99,7 @@ export class AuthService {
 
   private saveUser(formData: FormData, base64Image: string | null, observer: any) {
     const newUser = {
-      id: this.generateId(), 
+      id: this.generateId(),
       nom: formData.get('nom'),
       prenom: formData.get('prenom'),
       email: formData.get('email'),
@@ -142,5 +143,14 @@ export class AuthService {
 
   getConnectedUser(): any {
     return JSON.parse(localStorage.getItem('connectedUser') || 'null');
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('connectedUser') !== null;
+  }
+
+  getUserRole(): string {
+    const user = JSON.parse(localStorage.getItem('connectedUser') || '{}');
+    return user.role || '';
   }
 }
