@@ -1,34 +1,47 @@
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-  <div *ngIf="connectedUser">
-    <h2 class="text-xl font-bold mb-4">Demandes de collecte - {{ connectedUser.adresse }}</h2>
+  <h2 class="text-xl font-bold mb-4">Demandes de collecte - {{ connectedUser.adresse }}</h2>
 
-    <div class="overflow-x-auto">
-      <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-200">
-        <tr>
-          <th class="px-4 py-2 text-left">Demande</th>
-          <th class="px-4 py-2 text-left">Poids</th>
-          <th class="px-4 py-2 text-left">Statut</th>
-          <th class="px-4 py-2 text-left">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let request of filteredRequests">
-          <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
-          <td class="px-4 py-2">{{ request.poids }} kg</td>
-          <td class="px-4 py-2">
-              <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full
-                {{ request.statut === 'validée' ? 'bg-green-200 text-green-800' :
-                   request.statut === 'rejetée' ? 'bg-red-200 text-red-800' : 'bg-yellow-200 text-yellow-800' }}">
-                {{ request.statut }}
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border-collapse">
+      <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 text-left">Demande</th>
+        <th class="px-4 py-2 text-left">Créneau</th>
+        <th class="px-4 py-2 text-left">Statut</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let request of filteredRequests">
+        <td class="px-4 py-2">{{ request.typeDechets.join(', ') }}</td>
+        <td class="px-4 py-2"> {{request.creneauHoraire}}</td>
+
+        <td class="px-4 py-2">
+          <button (click)="toggleDropdown(request.id)"
+                  class="text-white px-4 py-2 rounded-md {{
+          request.statut === 'en attente' ? 'bg-yellow-300' :
+          request.statut === 'occupée' ? 'bg-red-300' :
+          request.statut === 'en cours' ? 'bg-purple-300' :
+          request.statut === 'validée' ? 'bg-green-300' :
+          'bg-red-300' }} flex items-center">
+
+            {{ request.statut }}
+              <span class="ml-2 text-sm">
+                ▼
               </span>
-          </td>
-          <td>
-            <button  (click)="updateRequest(request)" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">Modifier</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+          </button>
+
+          <div *ngIf="request.showDropdown" class="absolute bg-white shadow-md rounded-md mt-2 w-28">
+            <select (change)="changeStatus(request, $event)"
+                    class="w-fit p-2 border border-gray-300 rounded-md">
+              <option value="en attente" [selected]="request.statut === 'en attente'">En attente</option>
+              <option value="occupée" [selected]="request.statut === 'occupée'">Occupée</option>
+              <option value="en cours" [selected]="request.statut === 'en cours'">En cours</option>
+              <option value="validée" [selected]="request.statut === 'validée'">Validée</option>
+              <option value="rejetée" [selected]="request.statut === 'rejetée'">Rejetée</option>
+            </select>
+          </div>
+        </td>
+      </tbody>
+    </table>
   </div>
 </div>
