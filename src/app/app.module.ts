@@ -5,10 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { ParticularModule } from './particular/particular.module';
-import { CollectorModule } from './collector/collector.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NavbarParticularComponent } from './components/navbar-particular/navbar-particular.component';
 import { NavbarCollectorComponent } from './components/navbar-collector/navbar-collector.component';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {CollectorModule} from './collector/collector.module';
+
+
 
 @NgModule({
   declarations: [
@@ -22,7 +27,9 @@ import { NavbarCollectorComponent } from './components/navbar-collector/navbar-c
     AppRoutingModule,
     AuthModule,
     ParticularModule,
-    CollectorModule
+    CollectorModule,
+    // StoreModule.forRoot({ requests: requestsReducer }),
+    // EffectsModule.forRoot([RequestsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
