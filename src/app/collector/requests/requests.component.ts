@@ -4,8 +4,10 @@ import { Store } from '@ngrx/store';
 import { CommonModule, NgForOf } from '@angular/common';
 import Swal from 'sweetalert2';
 import {addPoints} from '../store/point.actions';
-import {Observable} from 'rxjs';
-import {selectPointsByRequestId} from '../store/point.selectors';
+import {selectPointsByRequestIdAndUserId} from '../store/point.selectors';
+
+
+
 
 @Component({
   selector: 'app-requests',
@@ -19,6 +21,7 @@ export class RequestsComponent implements OnInit {
   requests: any[] = JSON.parse(localStorage.getItem('collectionRequests') || '[]');
   filteredRequests: any[] = [];
 
+
   constructor(
     private collectorService: CollectorService,
     protected store: Store
@@ -28,13 +31,14 @@ export class RequestsComponent implements OnInit {
     // this.filterRequests();
   }
 
+
   ngOnInit(): void {
     this.filterRequests();
 
-    const requestId = 1738758127512;
-    this.store.select(selectPointsByRequestId(requestId)).subscribe(points => {
-      console.log(`Points for request ${requestId}:`, points);
-    });
+    // const requestId = 1738758127512;
+    // this.store.select(selectPointsByRequestId(requestId)).subscribe(points => {
+    //   console.log(`Points for request ${requestId}:`, points);
+    // });
 
 
   }
@@ -47,6 +51,7 @@ export class RequestsComponent implements OnInit {
       });
     }
   }
+
 
   getCityFromAddress(address: string): string {
     const parts = address.split(',');
@@ -82,17 +87,7 @@ export class RequestsComponent implements OnInit {
 
   assignPoints(request: any) {
     let points = 0;
-
     const poidsEnKg = request.poids / 1000;
-
-    // console.log('request.typeDechets:', request.typeDechets);
-    // console.log('request.poids (en grammes):', request.poids);
-    // console.log('Poids en kg:', poidsEnKg);
-
-    if (!request.typeDechets || !Array.isArray(request.typeDechets)) {
-      console.error('Erreur : typeDechets n\'est pas un tableau ou est undefined.');
-      return;
-    }
 
     request.typeDechets.forEach((type: string) => {
       switch (type) {
@@ -114,8 +109,12 @@ export class RequestsComponent implements OnInit {
       }
     });
 
-    this.store.dispatch(addPoints({ requestId: request.id, points }));
+    if (request.userId) {
+      const userId = request.userId;
+      this.store.dispatch(addPoints({ requestId: request.id, userId, points }));
+    }
   }
 
-  protected readonly selectPointsByRequestId = selectPointsByRequestId;
+  protected readonly selectPointsByRequestIdAndUserId = selectPointsByRequestIdAndUserId;
 }
+

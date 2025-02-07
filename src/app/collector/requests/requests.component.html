@@ -18,10 +18,12 @@
         <td class="px-4 py-2"> {{request.creneauHoraire}}</td>
         <td class="px-4 py-2"> {{request.poids}}</td>
         <td class="px-4 py-2">
-            <span *ngIf="request.statut === 'validée'">
-              {{ (store.select(selectPointsByRequestId(request.id)) | async) }}
+             <span *ngIf="request.statut === 'validée'">
+              {{ (store.select(selectPointsByRequestIdAndUserId(request.id, request.userId)) | async) }}
             </span>
+
         </td>
+
 
         <td>
 

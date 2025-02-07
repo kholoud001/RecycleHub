@@ -1,10 +1,33 @@
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
   <h3 class="text-xl font-semibold mb-4">🏆 Système de points</h3>
   <p class="text-gray-700">Vos points accumulés en tant que particulier.</p>
+
   <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500">
     <h4 class="text-lg font-semibold">
       Points actuels :
       <span class="text-blue-600">{{ totalPoints }}</span>
     </h4>
+  </div>
+
+  <!-- Conversion Buttons -->
+  <div class="mt-6">
+    <h4 class="font-semibold">Convertir mes points :</h4>
+    <div *ngFor="let voucher of vouchers" class="mt-2">
+      <button
+        (click)="requestConversion(voucher.points)"
+        [disabled]="totalPoints < voucher.points || hasPendingRequest(voucher.points)"
+        class="bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50"
+      >
+        Convertir {{ voucher.points }} points en bon de {{ voucher.value }} Dh
+      </button>
+
+      <button
+        *ngIf="hasPendingRequest(voucher.points)"
+        (click)="cancelConversion(voucher.points)"
+        class="ml-2 bg-red-500 text-white px-4 py-2 rounded-md"
+      >
+        Annuler
+      </button>
+    </div>
   </div>
 </div>
