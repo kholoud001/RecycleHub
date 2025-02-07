@@ -3,10 +3,12 @@ import { PointState } from './point.reducer';
 
 export const selectPointState = createFeatureSelector<PointState>('points');
 
-export const selectPointsByRequestId = (requestId: number) =>
+export const selectPointsByRequestIdAndUserId = (requestId: number, userId: number) =>
   createSelector(
     selectPointState,
-    (state) => state.pointsByRequestId[requestId] || 0
+    (state) => state.pointsByRequestIdAndUserId[requestId]?.[userId] || 0
   );
+
+
 
 

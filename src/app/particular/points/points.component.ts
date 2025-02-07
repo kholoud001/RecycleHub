@@ -38,10 +38,18 @@ export class PointsComponent implements OnInit {
     }
 
     this.store.select(selectPointState).subscribe((state) => {
-      if (state) {
-        this.totalPoints = Object.values(state.pointsByRequestId)
-          .map(points => Number(points))
-          .reduce((acc: number, points: number) => acc + points, 0);
+      if (state && state.pointsByRequestIdAndUserId) {
+        // console.log("Total points state:", state.pointsByRequestIdAndUserId);
+
+        this.totalPoints = 0;
+
+        Object.values(state.pointsByRequestIdAndUserId).forEach((userPointsMap) => {
+          // Check if the connectedUser.id exists in this request's points
+          if (userPointsMap[this.connectedUser.id]) {
+            // Add the points for the connected user
+            this.totalPoints += userPointsMap[this.connectedUser.id];
+          }
+        });
       } else {
         const storedState = localStorage.getItem('pointsState');
         if (storedState) {
@@ -56,6 +64,8 @@ export class PointsComponent implements OnInit {
     this.loadConversionRequests();
   }
 
+
+
   loadConversionRequests() {
     const storedRequests = localStorage.getItem('conversionRequests');
     if (storedRequests) {
@@ -68,7 +78,7 @@ export class PointsComponent implements OnInit {
       this.conversionRequests[this.connectedUser.id] = [];
     }
 
-    const newRequest = { id: Date.now(), points, status: 'pending' };
+    const newRequest = { id: Date.now(), points, status: 'en attente' };
     this.conversionRequests[this.connectedUser.id].push(newRequest);
 
     localStorage.setItem('conversionRequests', JSON.stringify(this.conversionRequests));
