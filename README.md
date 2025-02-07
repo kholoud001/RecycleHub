@@ -1,59 +1,99 @@
-# RecycleHub
+# ♻️ RecycleHub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+## 📌 Contexte du Projet
+RecycleHub est une application de gestion du recyclage qui met en relation des particuliers et des collecteurs agréés appartenant à une entreprise souhaitant automatiser ses tâches.
 
-## Development server
+Le projet est développé en **Single Page Application (SPA)** en utilisant **Angular** uniquement pour le front-end.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
+## 🚀 Fonctionnalités
+
+### 1️⃣ Inscription & Connexion
+- Inscription pour les particuliers avec :
+  - Email et mot de passe
+  - Nom et prénom
+  - Adresse complète
+  - Numéro de téléphone
+  - Date de naissance
+  - Photo de profil (optionnel)
+- **Les collecteurs sont pré-enregistrés manuellement**
+- Authentification basique sans distinction de type d'utilisateur
+- Possibilité de **modifier ses informations** ou de **supprimer son compte**
+- **Aucun administrateur** requis
+
+### 2️⃣ Demande de Collecte
+- Un particulier peut soumettre une demande avec :
+  - Type de déchet (plastique, verre, papier, métal)
+  - Photos des déchets (optionnel)
+  - **Poids estimé (minimum 1000g obligatoire)**
+  - Adresse de collecte
+  - Date et créneau horaire souhaités (09h00 - 18h00)
+  - Notes supplémentaires (optionnel)
+- Suivi des demandes avec statut :
+  - **En attente** (par défaut)
+  - **Modifiable/supprimable** tant qu'elle est "En attente"
+  - **Limite de 3 demandes simultanées** non validées ou rejetées
+  - **Poids total max : 10 kg**
+
+### 3️⃣ Processus de Collecte
+- **Collecteur** :
+  - Accès aux demandes disponibles dans sa ville
+  - Sélectionne une demande "En attente"
+  - Met à jour le statut de la collecte :
+    - ✅ **En attente**
+    - 🔄 **Occupée** (acceptée et en route)
+    - 🚛 **En cours** (collecte en place)
+    - ✅ **Validée** (collecte réussie)
+    - ❌ **Rejetée**
+  - Vérification sur place :
+    - Type de déchets
+    - Pesée et validation du poids réel
+    - Prise de photos (optionnel)
+    - Validation ou rejet de la transaction
+
+### 4️⃣ Système de Points 🎯
+- Attribution automatique après validation :
+  - **Plastique** : 2 points/kg
+  - **Verre** : 1 point/kg
+  - **Papier** : 1 point/kg
+  - **Métal** : 5 points/kg
+- Conversion des points en bons d'achat :
+  - **100 points** → **50 Dh**
+  - **200 points** → **120 Dh**
+  - **500 points** → **350 Dh**
+
+---
+
+## 🔧 Technologies Utilisées
+- **Angular** (Version 19)
+- **NgRx** (Gestion d'état)
+- **RxJS/Observables**
+- **Injection de dépendance**
+- **Formulaires** (Reactive Forms ou Template Driven Forms)
+- **Bootstrap** ou **Tailwind** (UI Design)
+- **Guards, Resolvers** (Sécurisation & Pré-chargement)
+- **Data Binding**
+- **Services, Pipes, Parent/Child Components, Routing**
+- **Persistance des données** (localstorage)
+- **Validation des formulaires avec messages d’erreur**
+- **Responsive Design** 📱💻
+
+---
+
+## 📜 Instructions d'Installation
+```sh
+# Cloner le projet
+git clone https://github.com/kholoud001/RecycleHub.git
+
+# Installer les dépendances
+npm install
+
+# Lancer le projet en développement
+ng serve --open
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📌 Auteur
+🚀 **Kholoud SANAK** - [kholoud001](https://github.com/kholoud001)
