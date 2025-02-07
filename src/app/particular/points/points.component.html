@@ -9,7 +9,6 @@
     </h4>
   </div>
 
-  <!-- Conversion Buttons -->
   <div class="mt-6">
     <h4 class="font-semibold">Convertir mes points :</h4>
     <div *ngFor="let voucher of vouchers" class="mt-2">
@@ -30,4 +29,26 @@
       </button>
     </div>
   </div>
+
+  <div class="mt-6">
+    <h4 class="font-semibold mb-2">Historique des conversions :</h4>
+    <div *ngIf="conversionRequests[connectedUser.id] && conversionRequests[connectedUser.id].length > 0; else noHistory">
+      <ul class="border p-4 rounded-md bg-gray-50">
+        <li *ngFor="let request of conversionRequests[connectedUser.id]" class="p-2 border-b last:border-b-0">
+          <span class="font-medium">Points : {{ request.points }}</span> -
+          <span [ngClass]="{
+          'text-green-600': request.status === 'acceptée',
+          'text-yellow-600': request.status === 'en attente',
+          'text-red-600': request.status === 'refusée'
+        }">
+          {{ request.status }}
+        </span>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noHistory>
+      <p class="text-gray-500 italic">Aucune conversion effectuée.</p>
+    </ng-template>
+  </div>
+
 </div>
