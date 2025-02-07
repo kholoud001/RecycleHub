@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { selectPointState } from '../../collector/store/point.selectors';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-points',
@@ -11,7 +11,8 @@ import {NgForOf, NgIf} from '@angular/common';
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    NgClass
   ],
   styleUrls: ['./points.component.css']
 })
@@ -31,6 +32,7 @@ export class PointsComponent implements OnInit {
     private store: Store
   ) {}
 
+
   ngOnInit(): void {
     this.connectedUser = this.authService.getConnectedUser();
     if (!this.connectedUser) {
@@ -39,14 +41,9 @@ export class PointsComponent implements OnInit {
 
     this.store.select(selectPointState).subscribe((state) => {
       if (state && state.pointsByRequestIdAndUserId) {
-        // console.log("Total points state:", state.pointsByRequestIdAndUserId);
-
         this.totalPoints = 0;
-
         Object.values(state.pointsByRequestIdAndUserId).forEach((userPointsMap) => {
-          // Check if the connectedUser.id exists in this request's points
           if (userPointsMap[this.connectedUser.id]) {
-            // Add the points for the connected user
             this.totalPoints += userPointsMap[this.connectedUser.id];
           }
         });
@@ -65,13 +62,15 @@ export class PointsComponent implements OnInit {
   }
 
 
-
   loadConversionRequests() {
     const storedRequests = localStorage.getItem('conversionRequests');
     if (storedRequests) {
       this.conversionRequests = JSON.parse(storedRequests);
+    } else {
+      this.conversionRequests = {}; // Initialisation si vide
     }
   }
+
 
   requestConversion(points: number) {
     if (!this.conversionRequests[this.connectedUser.id]) {
@@ -83,6 +82,7 @@ export class PointsComponent implements OnInit {
 
     localStorage.setItem('conversionRequests', JSON.stringify(this.conversionRequests));
   }
+
 
   cancelConversion(points: number) {
     if (this.conversionRequests[this.connectedUser.id]) {
