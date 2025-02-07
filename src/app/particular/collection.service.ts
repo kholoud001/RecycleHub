@@ -32,7 +32,7 @@ export class CollectionService {
     }
 
     const totalWeight = userRequests.reduce((sum: any, req: { poids: any }) => sum + req.poids, 0);
-    if (totalWeight + request.poids > 10000) {
+    if (totalWeight + request.poids > 10000 ) {
       Swal.fire({
         title: 'Poids dépassé ⚠️',
         text: 'Le poids total des collectes ne doit pas dépasser 10kg.',
