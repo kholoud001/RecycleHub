@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import {CollectorModule} from './collector/collector.module';
 import {FormsModule} from '@angular/forms';
 import { ErrorComponent } from './components/error/error.component';
+import {pointReducer} from './collector/store/point.reducer';
 
 
 
@@ -29,13 +30,10 @@ import { ErrorComponent } from './components/error/error.component';
     BrowserModule,
     AppRoutingModule,
     AuthModule,
-    ParticularModule,
     CollectorModule,
     FormsModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
-    // StoreModule.forRoot({ requests: requestsReducer }),
-    // EffectsModule.forRoot([RequestsEffects]),
+    StoreModule.forRoot({ points: pointReducer }),
+    ParticularModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,10 @@
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-
-      <h3 class="text-xl font-semibold mb-4">🏆 Système de points</h3>
-      <p class="text-gray-700">Vos points accumulés en tant que particulier.</p>
-      <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500">
-        <h4 class="text-lg font-semibold">Points actuels : <span class="text-blue-600">{{ connectedUser?.points || 0 }}</span></h4>
-      </div>
+  <h3 class="text-xl font-semibold mb-4">🏆 Système de points</h3>
+  <p class="text-gray-700">Vos points accumulés en tant que particulier.</p>
+  <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500">
+    <h4 class="text-lg font-semibold">
+      Points actuels :
+      <span class="text-blue-600">{{ totalPoints }}</span>
+    </h4>
+  </div>
 </div>

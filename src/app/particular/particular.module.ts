@@ -6,6 +6,8 @@ import { CollectionComponent } from './collection/collection.component';
 import { PointsComponent } from './points/points.component';
 import { ProfileComponent } from './profile/profile.component';
 import {RouterOutlet} from '@angular/router';
+import {StoreModule} from '@ngrx/store';
+import {pointReducer} from '../collector/store/point.reducer';
 
 
 
@@ -13,14 +15,14 @@ import {RouterOutlet} from '@angular/router';
   declarations: [
     DashboardComponent,
     CollectionComponent,
-    PointsComponent,
     ProfileComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterOutlet
+    RouterOutlet,
+    StoreModule.forFeature('points', pointReducer)
   ]
 })
 export class ParticularModule { }

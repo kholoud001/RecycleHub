@@ -8,3 +8,5 @@ export const selectPointsByRequestId = (requestId: number) =>
     selectPointState,
     (state) => state.pointsByRequestId[requestId] || 0
   );
+
+

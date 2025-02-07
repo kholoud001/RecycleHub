@@ -7,5 +7,5 @@ export const addPoints = createAction(
 
 export const loadPoints = createAction(
   '[Points] Load Points',
-  props<{ userId: string }>()
+  props<{ userId: number }>()
 );

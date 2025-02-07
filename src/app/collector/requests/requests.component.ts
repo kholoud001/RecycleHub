@@ -25,11 +25,17 @@ export class RequestsComponent implements OnInit {
   )
   {
     this.connectedUser = JSON.parse(localStorage.getItem('connectedUser') || 'null');
-    this.filterRequests();
+    // this.filterRequests();
   }
 
   ngOnInit(): void {
     this.filterRequests();
+
+    const requestId = 1738758127512;
+    this.store.select(selectPointsByRequestId(requestId)).subscribe(points => {
+      console.log(`Points for request ${requestId}:`, points);
+    });
+
 
   }
 
