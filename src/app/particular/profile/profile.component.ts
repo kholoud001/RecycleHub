@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
       localStorage.setItem('users', JSON.stringify(users));
 
       this.connectedUser = { ...this.updatedUser };
-      localStorage.setItem('user', JSON.stringify(this.connectedUser));
+      // localStorage.setItem('user', JSON.stringify(this.connectedUser));
       localStorage.setItem('connectedUser', JSON.stringify(this.connectedUser));
 
       Swal.fire({

@@ -5,7 +5,8 @@ import {FormsModule} from "@angular/forms";
 import { RequestsComponent } from './requests/requests.component';
 import { PointSystemComponent } from './point-system/point-system.component';
 import { ConvertComponent } from './convert/convert.component';
-
+import {StoreModule} from '@ngrx/store';
+import {pointReducer} from './store/point.reducer';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ConvertComponent } from './convert/convert.component';
   imports: [
     CommonModule,
     FormsModule,
-    RequestsComponent
+    RequestsComponent,
+    StoreModule.forFeature('points', pointReducer),
   ]
 })
 export class CollectorModule { }
