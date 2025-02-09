@@ -147,9 +147,9 @@ export class CollectionComponent implements OnInit {
   }
 
   cancelEdit(): void {
-      this.isAddingRequest = false;
-      this.resetForm();
-    }
+    this.isAddingRequest = false;
+    this.resetForm();
+  }
 
 
 
