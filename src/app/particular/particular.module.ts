@@ -8,6 +8,7 @@ import { ProfileComponent } from './profile/profile.component';
 import {RouterOutlet} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 import {pointReducer} from '../collector/store/point.reducer';
+import {ParticularRoutingModule} from './particular-routing.module';
 
 
 
@@ -21,7 +22,7 @@ import {pointReducer} from '../collector/store/point.reducer';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterOutlet,
+    ParticularRoutingModule,
     StoreModule.forFeature('points', pointReducer)
   ]
 })
